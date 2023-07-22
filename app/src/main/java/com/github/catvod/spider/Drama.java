@@ -32,6 +32,7 @@ import okhttp3.Headers;
 public class Drama extends Spider {
     private static final String siteUrl = "https://www.zjtu.tv";
     private static final String siteHost = "www.zjtu.tv";
+    static String cookie = "";
 
     /**
      * 播放源配置
