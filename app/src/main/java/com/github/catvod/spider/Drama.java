@@ -93,7 +93,7 @@ public class Drama extends Spider {
         try {
             Document doc = Jsoup.parse(OkHttpUtil.string(siteUrl, getHeaders(siteUrl)));
             // 分类节点
-            Elements elements = doc.select("ul[id='nav-bar'] > li > a");
+            Elements elements = doc.select("ul nav-swiper > ul > li > a");
             JSONArray classes = new JSONArray();
             for (Element ele : elements) {
                 String name = ele.text();
@@ -121,18 +121,17 @@ public class Drama extends Spider {
             result.put("class", classes);
             try {
                 // 取首页推荐视频列表
-                Element homeList = doc.select("div.list-a ul li").get(0);
-                Elements list = homeList.select("div.top");
+                Element homeList = doc.select("div.top a");
                 JSONArray videos = new JSONArray();
                 for (int i = 0; i < list.size(); i++) {
                     Element vod = list.get(i);
-                    String title = vod.select("a").attr("title");
+                    String title = vod.select("div.top a").attr("title");
                     String cover = vod.select("div.top a").attr("data-original");
                     if (!TextUtils.isEmpty(cover) && !cover.startsWith("http")) {
                         cover = siteUrl + cover;
                     }
                     String remark = vod.select("div.module-item-text").text();
-                    Matcher matcher = regexVid.matcher(vod.select("a").attr("href"));
+                    Matcher matcher = regexVid.matcher(vod.select("div.top a").attr("href"));
                     if (!matcher.find())
                         continue;
                     String id = matcher.group(1);
