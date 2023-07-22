@@ -30,8 +30,8 @@ import java.util.regex.Pattern;
 import okhttp3.Headers;
 
 public class Drama extends Spider {
-    private static final String siteUrl = "https://www.zjtu.tv";
-    private static final String siteHost = "www.zjtu.tv";
+    private static final String siteUrl = "https://www.zjtu.cc";
+    private static final String siteHost = "www.zjtu.cc";
     static String cookie = "";
 
     /**
@@ -42,8 +42,8 @@ public class Drama extends Spider {
      * 筛选配置
      */
     private JSONObject filterConfig;
-    private Pattern regexCategory = Pattern.compile("/category/(\\w+)/");
-    private Pattern regexVid = Pattern.compile("/project/(\\w+)/");
+    private Pattern regexCategory = Pattern.compile("/category-(\\S+)/");
+    private Pattern regexVid = Pattern.compile("/project-(\\S+)/");
     private Pattern regexPlay = Pattern.compile("/play/(\\w+)-(\\d+)-(\\d+)/");
     private Pattern regexPage = Pattern.compile("\\S+/page/(\\d+)\\S+");
 
@@ -121,7 +121,7 @@ public class Drama extends Spider {
             result.put("class", classes);
             try {
                 // 取首页推荐视频列表
-                Elements list = doc.select("div.top a");
+                Elements list = doc.select("div.list-a ul li");
                 JSONArray videos = new JSONArray();
                 for (int i = 0; i < list.size(); i++) {
                     Element vod = list.get(i);
